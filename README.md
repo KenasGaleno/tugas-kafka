@@ -1,76 +1,40 @@
 # tugas-kafka
 
-Warehouse Monitoring System
-Sistem pemantauan kondisi gudang ini dirancang untuk memantau suhu dan kelembaban di beberapa gudang penyimpanan barang sensitif, seperti makanan, obat-obatan, dan elektronik. Sistem ini menggunakan Apache Kafka untuk pengiriman data secara real-time dan PySpark untuk pemrosesan data. Dengan sistem ini, perusahaan dapat mengidentifikasi dan merespons kondisi berbahaya (seperti suhu atau kelembaban yang terlalu tinggi) dengan cepat untuk mencegah kerusakan barang.
+# Warehouse Monitoring System
 
-Fitur Utama
-Pemantauan Real-Time: Data suhu dan kelembaban dikirimkan setiap detik dan diproses secara langsung.
+Sistem Pemantauan Kondisi Gudang menggunakan **Apache Kafka** dan **PySpark** untuk memantau suhu dan kelembaban secara real-time. Sistem ini dirancang untuk membantu perusahaan logistik yang mengelola gudang penyimpanan barang sensitif seperti makanan, obat-obatan, dan elektronik, dengan tujuan untuk mencegah kerusakan barang akibat suhu terlalu tinggi atau kelembaban berlebih.
 
-Peringatan Kondisi Kritis: Sistem memberikan peringatan jika suhu lebih dari 80°C atau kelembaban lebih dari 70%, serta menggabungkan kedua kondisi untuk mendeteksi peringatan kritis.
+## Fitur Utama
 
-Penggabungan Data: Data suhu dan kelembaban digabungkan berdasarkan waktu dan ID gudang untuk analisis yang lebih komprehensif.
+- **Pemantauan Real-Time**: Data suhu dan kelembaban dikirim setiap detik dan diproses langsung oleh sistem.
+- **Peringatan Kondisi Kritis**: Sistem memberikan peringatan jika suhu lebih dari 80°C atau kelembaban lebih dari 70%, serta menggabungkan kedua kondisi untuk mendeteksi peringatan kritis.
+- **Penggabungan Data**: Data suhu dan kelembaban digabungkan berdasarkan waktu dan ID gudang untuk analisis yang lebih komprehensif.
 
-Arsitektur
-Kafka Producer:
+## Arsitektur Sistem
 
-Producer Suhu: Mengirimkan data suhu setiap detik.
+1. **Kafka Producer**:
+   - **Producer Suhu**: Mengirimkan data suhu setiap detik.
+   - **Producer Kelembaban**: Mengirimkan data kelembaban setiap detik.
 
-Producer Kelembaban: Mengirimkan data kelembaban setiap detik.
+2. **Kafka Consumer (PySpark)**:
+   - Mengonsumsi data suhu dan kelembaban dari Kafka secara real-time.
+   - Melakukan filtering untuk memberikan peringatan suhu tinggi dan kelembaban tinggi.
+   - Menggabungkan data suhu dan kelembaban untuk mendeteksi kondisi kritis pada gudang yang sama.
 
-Kafka Consumer:
+## Topik Kafka
 
-Mengonsumsi data suhu dan kelembaban dari Kafka menggunakan PySpark.
+- **sensor-suhu-gudang**: Topik untuk menerima data suhu.
+- **sensor-kelembaban-gudang**: Topik untuk menerima data kelembaban.
 
-Melakukan filtering untuk mendeteksi suhu tinggi dan kelembaban tinggi, serta status kondisi gudang yang optimal atau membutuhkan perhatian.
+## Menjalankan Sistem
 
-Menggabungkan data suhu dan kelembaban untuk mendeteksi kondisi kritis pada gudang yang sama.
+### 1. Menjalankan Kafka dan Zookeeper
 
-Cara Kerja
-1. Kafka Topics
-Sistem ini menggunakan dua topik Kafka untuk menerima data sensor secara real-time:
+Pastikan Kafka dan Zookeeper sudah berjalan. Anda bisa menggunakan **Docker** untuk menjalankannya dengan mudah.
 
-monitor-suhu-warehouse: Untuk data suhu.
-
-monitor-kelembaban-warehouse: Untuk data kelembaban.
-
-2. Simulasi Data Sensor (Producer Kafka)
-Dua produser Kafka dikembangkan untuk mensimulasikan pengiriman data suhu dan kelembaban:
-
-Producer Suhu: Mengirimkan data suhu dalam format berikut:
-
-json
-Salin
-Edit
-{"id_lokasi": "G1", "suhu": 82, "timestamp_event": "2025-05-23T05:37:00"}
-Producer Kelembaban: Mengirimkan data kelembaban dalam format berikut:
-
-json
-Salin
-Edit
-{"id_lokasi": "G1", "kelembaban": 75, "timestamp_event": "2025-05-23T05:37:00"}
-3. Konsumsi dan Olah Data dengan PySpark
-PySpark digunakan untuk mengonsumsi dan memproses data dari Kafka:
-
-Filter Data: Sistem ini memfilter suhu yang lebih dari 80°C dan kelembaban yang lebih dari 70% untuk memberikan peringatan.
-
-Gabungkan Stream: Data suhu dan kelembaban digabungkan berdasarkan gudang_id dan window waktu untuk mendeteksi kondisi kritis di gudang yang sama.
-
-4. Peringatan Gabungan
-Jika suhu lebih dari 80°C dan kelembaban lebih dari 70% pada gudang yang sama dalam periode waktu yang sama, sistem akan mengeluarkan peringatan kritis:
-
-text
-Salin
-Edit
-[PERINGATAN KRITIS] Gudang G1: - Suhu: 84°C - Kelembaban: 73% - Status: Bahaya tinggi! Barang berisiko rusak
-Menjalankan Sistem
-1. Menjalankan Kafka dan Zookeeper
-Pastikan Kafka dan Zookeeper berjalan. Anda dapat menggunakan Docker untuk menyiapkannya dengan mudah:
-
-bash
-Salin
-Edit
+```bash
 docker-compose -f docker-compose.yml up
-2. Menjalankan Kafka Producer
+Menjalankan Kafka Producer
 a. Producer Suhu:
 Untuk menjalankan producer suhu, gunakan perintah berikut:
 
@@ -86,14 +50,14 @@ Salin
 Edit
 python producer_kelembaban_sesuai.py
 3. Menjalankan Kafka Consumer dengan PySpark
-Setelah produser mengirimkan data ke Kafka, jalankan consumer PySpark untuk mengonsumsi dan memproses data:
+Setelah Kafka producer mengirimkan data, jalankan consumer PySpark untuk mengonsumsi dan memproses data:
 
 bash
 Salin
 Edit
 python pyspark_consumer_sesuai.py
 4. Memeriksa Output
-Setelah menjalankan produser dan consumer, Anda akan melihat output di konsol yang menunjukkan status setiap gudang. Output ini mencakup suhu, kelembaban, dan status kondisi gudang (seperti "Kondisi Optimal", "PERINGATAN: Suhu Terlalu Panas!", atau "PERINGATAN KRITIS").
+Setelah menjalankan producer dan consumer, Anda akan melihat output di konsol yang menunjukkan status setiap gudang. Output ini mencakup suhu, kelembaban, dan status kondisi gudang (seperti "Kondisi Optimal", "PERINGATAN: Suhu Terlalu Panas!", atau "PERINGATAN KRITIS").
 
 5. Menghentikan Proses
 Untuk menghentikan producer atau consumer, tekan Ctrl+C di terminal tempat Anda menjalankan skrip.
