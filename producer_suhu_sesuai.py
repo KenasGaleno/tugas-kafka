@@ -7,7 +7,7 @@ import datetime
 KAFKA_TOPIC_NAME_MOD = "monitor-suhu-warehouse" # Nama topik diubah
 KAFKA_BOOTSTRAP_SERVERS_MOD = 'localhost:29092'
 
-WAREHOUSE_IDS_MOD = ["WH-A", "WH-B", "WH-C", "WH-D"] # ID Gudang diubah dan ditambah
+WAREHOUSE_IDS_MOD = ["G1", "G2", "G3", "G4"] # ID Gudang diubah dan ditambah
 
 if __name__ == "__main__":
     print("Memulai Kafka Producer Suhu...")
