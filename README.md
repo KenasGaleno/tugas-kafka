@@ -61,7 +61,8 @@ Setelah Kafka producer mengirimkan data, jalankan consumer PySpark untuk mengons
 python pyspark_consumer_sesuai.py
 ```
 
-![WhatsApp Image 2025-05-23 at 05 55 34_6861df7c](https://github.com/user-attachments/assets/c7347acc-defd-4f96-82ff-082a00134ed0)
+![image](https://github.com/user-attachments/assets/aa9e7f17-bbac-450d-b9f9-9479baf511ec)
+
 
 
 
