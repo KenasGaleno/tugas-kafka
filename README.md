@@ -32,5 +32,36 @@ Pastikan Kafka dan Zookeeper sudah berjalan. Anda bisa menggunakan **Docker** un
 
 ```bash
 docker-compose -f docker-compose.yml up
+```
 
-### dewfvw
+### Menjalankan Kafka Producer dan Dokumentasi
+
+a. Producer Suhu:
+Untuk menjalankan producer suhu, gunakan perintah berikut:
+
+```bash
+python producer_suhu_sesuai.py
+```
+
+![WhatsApp Image 2025-05-23 at 06 05 58_cf690eda](https://github.com/user-attachments/assets/6a0d9122-9171-4dc9-b405-0fc78cff306a)
+
+b. Producer Kelembaban:
+Untuk menjalankan producer kelembaban, gunakan perintah berikut:
+
+```bash
+python producer_kelembaban_sesuai.py
+```
+
+![WhatsApp Image 2025-05-23 at 06 06 23_bbc2b630](https://github.com/user-attachments/assets/2e2fb630-f12c-4399-948c-a831790c66e6)
+
+c. Menjalankan Kafka Consumer dengan PySpark
+Setelah Kafka producer mengirimkan data, jalankan consumer PySpark untuk mengonsumsi dan memproses data:
+
+```bash
+python pyspark_consumer_sesuai.py
+```
+
+![WhatsApp Image 2025-05-23 at 05 55 34_6861df7c](https://github.com/user-attachments/assets/c7347acc-defd-4f96-82ff-082a00134ed0)
+
+
+
