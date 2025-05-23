@@ -7,7 +7,7 @@ import datetime
 KAFKA_TOPIC_NAME_MOD = "monitor-kelembaban-warehouse" # Nama topik diubah
 KAFKA_BOOTSTRAP_SERVERS_MOD = 'localhost:29092'
 
-WAREHOUSE_IDS_MOD = ["WH-A", "WH-B", "WH-C", "WH-D"] # ID Gudang disamakan dengan producer suhu
+WAREHOUSE_IDS_MOD = ["G1", "G2", "G3", "G4"] # ID Gudang disamakan dengan producer suhu
 
 if __name__ == "__main__":
     print("Memulai Kafka Producer Kelembaban...")
